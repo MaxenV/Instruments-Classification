@@ -5,3 +5,4 @@ intermediate_results
 processed_metadata.csv
 *.h5
 __pycache__
+models
