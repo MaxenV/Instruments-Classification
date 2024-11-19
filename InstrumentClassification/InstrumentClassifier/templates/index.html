@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Classifier</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .container { text-align: center; margin-top: 50px; }
+        .drag-area {
+            border: 2px dashed #008cba;
+            padding: 50px;
+            margin: 20px;
+            cursor: pointer;
+        }
+        .button {
+            padding: 10px 20px;
+            background-color: #008cba;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Upload an Audio File for Classification</h1>
+
+        <!-- Drag and Drop area -->
+        <div id="drag-area" class="drag-area">
+            <p>Drag & Drop an audio file here</p>
+        </div>
+
+        <!-- file input -->
+        <input type="file" id="file-input" class="button" accept="audio/*" />
+        
+        <!-- Display the prediction -->
+        <div id="result"></div>
+    </div>
+
+    <script>
+        const dragArea = document.getElementById('drag-area');
+        const fileInput = document.getElementById('file-input');
+        const resultDiv = document.getElementById('result');
+        
+        // Function to handle file and send it to backend
+function handleFile(file) {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    console.log("Sending file:", file.name, file.size);  // Log file details for debugging
+
+    // Send the file to the backend for classification
+    fetch('/upload/', {
+        method: 'POST',
+        body: formData,
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("Received response:", data);  // Log the server's response
+
+        if (data.predictions) {
+            const predictions = data.predictions;
+            let resultText = "Predictions:<br>";
+            for (const [className, percentage] of Object.entries(predictions)) {
+                resultText += `${className}: ${percentage}<br>`;
+            }
+            resultDiv.innerHTML = resultText;
+        } else {
+            resultDiv.innerHTML = "Error: " + data.error;
+        }
+    })
+    .catch(error => {
+        console.log("Error occurred:", error);  // Log any errors that occur during the fetch
+        resultDiv.innerHTML = "An error occurred!";
+    });
+}
+
+        
+        // Handle drag and drop
+        dragArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            handleFile(e.dataTransfer.files[0]);
+        });
+        
+        dragArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+        });
+        
+        // Handle file input change
+        fileInput.addEventListener('change', (e) => {
+            handleFile(e.target.files[0]);
+        });
+        
+    </script>
+</body>
+</html>
