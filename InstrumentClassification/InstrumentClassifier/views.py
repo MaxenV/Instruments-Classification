@@ -7,6 +7,9 @@ from .utils import predict_class
 
 model = tf.keras.models.load_model("../models/instrument_classifier_model.h5")
 
+ALLOWED_EXTENSIONS = {"wav", "mp3"}
+MAX_FILE_SIZE = 800 * 1024 * 1024
+
 
 def index(request):
     return render(request, "index.html")
@@ -16,17 +19,20 @@ def index(request):
 def upload(request):
     if request.method == "POST" and request.FILES.get("file"):
         audio_file = request.FILES["file"]
+        file_extension = audio_file.name.split(".")[-1].lower()
+
+        if file_extension not in ALLOWED_EXTENSIONS:
+            return JsonResponse({"error": "Invalid file format"}, status=400)
+
+        if audio_file.size > MAX_FILE_SIZE:
+            return JsonResponse({"error": "File too large"}, status=400)
+
         print(f"Received file: {audio_file.name}, {audio_file.size} bytes")
 
         try:
             predictions = predict_class(audio_file, model)
-            print(f"Predictions: {predictions}")
-            if predictions:
-                return JsonResponse({"predictions": predictions})
-            else:
-                return JsonResponse({"error": "Prediction failed"}, status=500)
+            return JsonResponse({"predictions": predictions})
         except Exception as e:
-            print(f"Error during prediction: {e}")
-            return JsonResponse({"error": str(e)}, status=500)
+            return JsonResponse({"error": "Prediction failed"}, status=500)
     else:
         return JsonResponse({"error": "No file provided"}, status=400)

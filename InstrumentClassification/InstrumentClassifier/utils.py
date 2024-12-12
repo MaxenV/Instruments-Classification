@@ -1,3 +1,5 @@
+import os
+
 import librosa
 import numpy as np
 
@@ -16,7 +18,6 @@ CLASS_MAPPINGS = {
 
 def predict_class(audio_file, model):
     try:
-
         class_mappings = CLASS_MAPPINGS
 
         # Save the uploaded file
@@ -72,3 +73,6 @@ def predict_class(audio_file, model):
     except Exception as e:
         print(f"Error in predict_class: {e}")
         return {"error": "Prediction failed"}
+    finally:
+        if os.path.exists(temp_file_path):
+            os.remove(temp_file_path)
