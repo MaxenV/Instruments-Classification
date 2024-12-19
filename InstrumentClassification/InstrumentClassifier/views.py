@@ -5,7 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from .utils import predict_class
 
-model = tf.keras.models.load_model("../models/instrument_classifier_model.h5")
+model = tf.keras.models.load_model("./models/instrument_classifier_model.h5")
 
 ALLOWED_EXTENSIONS = {"wav", "mp3"}
 MAX_FILE_SIZE = 800 * 1024 * 1024

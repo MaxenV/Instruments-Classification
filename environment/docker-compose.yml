@@ -47,7 +47,6 @@ services:
         - project_network
       volumes:
         - ./../InstrumentClassification:/InstrumentClassification
-        - ./../models/inUse/instrument_classifier_model.h5:/models/instrument_classifier_model.h5
 
 
 volumes:
