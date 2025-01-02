@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -96,19 +96,19 @@
   </head>
   <body>
     <div class="container">
-      <h1>Instrument Classifier</h1>
+      <h1>Klasyfikator Instrumentów</h1>
 
       <div id="drag-area" class="drag-area">
-        <h2>Upload file or drop here</h2>
+        <h2>Prześlij plik lub upuść tutaj</h2>
 
-        <label for="file-input" class="custom-file-upload">Choose File</label>
+        <label for="file-input" class="custom-file-upload">Wybierz plik</label>
         <input type="file" id="file-input" accept="audio/*" />
         <div id="result"></div>
-        <div id="loading">Loading...</div>
+        <div id="loading">Ładowanie...</div>
       </div>
     </div>
 
-    <div id="overlay" class="overlay">Drop here</div>
+    <div id="overlay" class="overlay">Upuść tutaj</div>
 
     <script>
       const VALID_EXTENSIONS = ['mp3', 'wav']
@@ -128,12 +128,12 @@
         const isValidSize = file.size <= MAX_FILE_SIZE
       
         if (!isValidExtension) {
-          resultDiv.innerHTML = 'Invalid file type. Only mp3 and wav files are allowed.'
+          resultDiv.innerHTML = 'Nieprawidłowy typ pliku. Dozwolone są tylko pliki mp3 i wav.'
           return false
         }
       
         if (!isValidSize) {
-          resultDiv.innerHTML = 'File size exceeds 800MB limit.'
+          resultDiv.innerHTML = 'Rozmiar pliku przekracza limit 800MB.'
           return false
         }
       
@@ -163,19 +163,19 @@
       
             if (data.predictions) {
               const predictions = data.predictions
-              let resultText = 'Predictions:<br>'
+              let resultText = 'Rozponane instrumenty:<br>'
               for (const [className, percentage] of Object.entries(predictions)) {
                 resultText += `${className}: ${percentage}<br>`
               }
               resultDiv.innerHTML = resultText
             } else {
-              resultDiv.innerHTML = 'Error: ' + data.error
+              resultDiv.innerHTML = 'Błąd: ' + data.error
             }
           })
           .catch((error) => {
-            console.log('Error occurred:', error)
+            console.log('Wystąpił błąd:', error)
             loadingDiv.style.display = 'none'
-            resultDiv.innerHTML = 'An error occurred!'
+            resultDiv.innerHTML = 'Wystąpił błąd!'
           })
       }
       

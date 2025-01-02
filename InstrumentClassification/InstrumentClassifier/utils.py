@@ -4,15 +4,15 @@ import librosa
 import numpy as np
 
 CLASS_MAPPINGS = {
-    "0": "piccolo",
-    "1": "clarinet",
-    "2": "bass",
-    "3": "flute",
-    "4": "oboe",
-    "5": "cello",
-    "6": "violin",
-    "7": "sax",
-    "8": "trumpet",
+    "0": "pikolo",
+    "1": "klarnet",
+    "2": "bas",
+    "3": "flet",
+    "4": "obój",
+    "5": "wiolonczela",
+    "6": "skrzypce",
+    "7": "saksofon",
+    "8": "trąbka",
 }
 
 
