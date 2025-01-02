@@ -19,7 +19,7 @@ services:
     environment:
       - NVIDIA_VISIBLE_DEVICES=all
     volumes:
-      - ./../:/instrument_classifier
+      - ./../:/home/modelBuilder/work
 
   postgres:
     image: postgres:latest
@@ -56,3 +56,4 @@ volumes:
 networks:
   project_network:
     driver: bridge
+

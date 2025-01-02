@@ -2,7 +2,7 @@
 FROM nvidia/cuda:12.2.0-devel-ubuntu22.04
 
 # Set the working directory
-WORKDIR /home/jovyan/work
+WORKDIR /home/modelBuilder/work
 
 # Install Miniconda
 RUN apt-get update && \
